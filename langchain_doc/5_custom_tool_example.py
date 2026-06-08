@@ -49,9 +49,15 @@ agent = create_agent(
     tools=[customBash],
 )
 
+from langchain_core.callbacks import UsageMetadataCallbackHandler
+callback = UsageMetadataCallbackHandler()
+
 result = agent.invoke(
-    {"messages": [{"role": "user", "content": "if there is any python file in the directory starting with 2_ give me the content of that file"}]}
+    {"messages": [{"role": "user", "content": "if there is any python file in the directory starting with 2_ give me the content of that file"}]},
+    config={"callbacks":[callback]}
 )
 
-print(result)
+
+# print(result)
 print(result["messages"][-1].content)
+print(callback.usage_metadata)
